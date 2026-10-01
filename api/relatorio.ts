@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Redis } from '@upstash/redis';
+import { criarRedis } from './_redis';
 
 /**
  * Serverless Function da Vercel.
@@ -11,7 +11,7 @@ import { Redis } from '@upstash/redis';
  * Opcional: GET /api/relatorio?nome=Fulano para um aluno só.
  */
 
-const redis = Redis.fromEnv();
+const redis = criarRedis();
 
 interface Registro {
   data: string;

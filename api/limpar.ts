@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Redis } from '@upstash/redis';
+import { criarRedis } from './_redis';
 
 /**
  * Serverless Function da Vercel.
@@ -8,7 +8,7 @@ import { Redis } from '@upstash/redis';
  * Rota: POST /api/limpar  { nome }
  */
 
-const redis = Redis.fromEnv();
+const redis = criarRedis();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
