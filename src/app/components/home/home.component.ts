@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { DadosService } from '../../services/dados.service';
 import { ProgressoService } from '../../services/progresso.service';
 import { Tema } from '../../models/conteudo.model';
@@ -8,7 +8,7 @@ import { Tema } from '../../models/conteudo.model';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

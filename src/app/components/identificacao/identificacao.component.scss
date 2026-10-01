@@ -103,6 +103,27 @@
   font-size: 1.05rem;
 }
 
+.ident__rodape {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 2px dashed #e2e8f0;
+  text-align: center;
+}
+
+/* cadeado discreto que leva à área dos pais */
+.ident__pais {
+  display: inline-block;
+  font-size: 1.2rem;
+  opacity: 0.35;
+  text-decoration: none;
+  padding: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.ident__pais:hover {
+  opacity: 0.8;
+}
+
 @media (max-width: 600px) {
   .ident {
     padding-top: 20px;
