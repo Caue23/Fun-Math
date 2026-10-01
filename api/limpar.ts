@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { criarRedis } from './_redis';
+import { Redis } from '@upstash/redis';
 
 /**
  * Serverless Function da Vercel.
@@ -8,7 +8,26 @@ import { criarRedis } from './_redis';
  * Rota: POST /api/limpar  { nome }
  */
 
-const redis = criarRedis();
+/**
+ * Cria o cliente Redis sob demanda, aceitando as credenciais tanto no padrão
+ * Upstash (UPSTASH_REDIS_REST_URL/TOKEN) quanto no padrão KV/Vercel
+ * (KV_REST_API_URL/TOKEN). Fica inline para evitar imports relativos entre
+ * funções, que quebram no runtime da Vercel.
+ */
+function obterRedis(): Redis {
+  const url =
+    process.env['UPSTASH_REDIS_REST_URL'] ?? process.env['KV_REST_API_URL'];
+  const token =
+    process.env['UPSTASH_REDIS_REST_TOKEN'] ?? process.env['KV_REST_API_TOKEN'];
+
+  if (!url || !token) {
+    throw new Error(
+      'Credenciais do Redis ausentes. Esperado UPSTASH_REDIS_REST_URL/TOKEN ou KV_REST_API_URL/TOKEN.'
+    );
+  }
+
+  return new Redis({ url, token });
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -17,6 +36,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    const redis = obterRedis();
+
     const corpo = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const nome = (corpo?.nome ?? '').trim();
     if (!nome) {
