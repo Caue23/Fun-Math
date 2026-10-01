@@ -1,0 +1,77 @@
+<section class="container quiz" *ngIf="tema">
+  <button class="btn voltar" (click)="voltarHome()">⬅️ Menu</button>
+
+  <h1 class="quiz__titulo" [style.color]="tema.cor">
+    {{ tema.emoji }} Quiz de {{ tema.titulo }}
+  </h1>
+  <p class="quiz__subtitulo">Marque a resposta certa e depois clique em enviar!</p>
+
+  <form [formGroup]="form" (ngSubmit)="enviarRespostas()">
+    <div
+      class="pergunta"
+      *ngFor="let p of perguntas; let i = index"
+      [class.pergunta--certa]="enviado && acertou(p)"
+      [class.pergunta--errada]="enviado && !acertou(p)"
+    >
+      <h2 class="pergunta__enunciado">{{ i + 1 }}. {{ p.enunciado }}</h2>
+
+      <div class="opcoes">
+        <label
+          class="opcao"
+          *ngFor="let opcao of p.opcoes; let oi = index"
+          [class.opcao--selecionada]="respostaDaCrianca(p.id) === oi"
+        >
+          <input
+            type="radio"
+            [formControlName]="'pergunta_' + p.id"
+            [value]="oi"
+            [attr.disabled]="enviado ? true : null"
+          />
+          <span class="opcao__texto">{{ opcao }}</span>
+        </label>
+      </div>
+
+      <!-- Feedback por pergunta (aparece só depois de enviar) -->
+      <p class="feedback feedback--ok" *ngIf="enviado && acertou(p)">
+        🎉 Resposta certa! ✅
+      </p>
+      <p class="feedback feedback--erro" *ngIf="enviado && !acertou(p)">
+        ❌ Ops! A resposta certa era:
+        <strong>{{ p.opcoes[p.respostaCorreta] }}</strong> 😢
+      </p>
+    </div>
+
+    <!-- Aviso caso falte responder algo -->
+    <p class="aviso" *ngIf="form.invalid && form.touched && !enviado">
+      ✋ Responda todas as perguntas antes de enviar!
+    </p>
+
+    <!-- Botões de ação -->
+    <div class="acoes" *ngIf="!enviado">
+      <button
+        type="submit"
+        class="btn btn-enviar"
+        [style.background]="tema.cor"
+        [disabled]="form.invalid"
+      >
+        Enviar Respostas ✔️
+      </button>
+    </div>
+  </form>
+
+  <!-- Placar final -->
+  <div class="placar" *ngIf="enviado">
+    <h2 class="placar__nota">
+      Você acertou {{ acertos }} de {{ totalPerguntas }}! 🏅
+    </h2>
+    <p class="placar__mensagem">{{ mensagemFinal }}</p>
+    <div class="acoes">
+      <button class="btn btn-refazer" (click)="refazer()">
+        Tentar de novo 🔁
+      </button>
+      <button class="btn btn-voltar-menu" (click)="voltarHome()">
+        Voltar ao menu 🏠
+      </button>
+    </div>
+  </div>
+</section>

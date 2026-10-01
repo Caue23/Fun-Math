@@ -1,0 +1,23 @@
+<section class="container ident">
+  <div class="ident__cartao">
+    <div class="ident__emoji">👋</div>
+    <h1 class="ident__titulo">Olá! Qual é o seu nome?</h1>
+    <p class="ident__subtitulo">Digite seu nome para começar a estudar!</p>
+
+    <form (ngSubmit)="entrar()" class="ident__form">
+      <input
+        class="ident__input"
+        type="text"
+        name="nome"
+        [(ngModel)]="nome"
+        placeholder="Seu nome aqui..."
+        autocomplete="off"
+        maxlength="20"
+      />
+      <button type="submit" class="btn ident__btn" [disabled]="!nome.trim()">
+        Vamos lá! 🚀
+      </button>
+    </form>
+
+  </div>
+</section>

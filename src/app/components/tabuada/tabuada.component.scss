@@ -1,0 +1,263 @@
+.tabuada {
+  text-align: center;
+}
+
+.voltar {
+  background: #e2e8f0;
+  color: #334155;
+  padding: 10px 18px;
+  font-size: 1rem;
+  float: left;
+  margin-bottom: 10px;
+}
+
+.tabuada__titulo {
+  font-size: 2.1rem;
+  clear: both;
+  padding-top: 10px;
+  color: #ec4899;
+}
+
+.tabuada__subtitulo {
+  font-size: 1.15rem;
+  color: #475569;
+  margin: 8px 0 24px;
+}
+
+/* Seletor de tabuada */
+.seletor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.seletor__btn {
+  background: #fff;
+  color: #334155;
+  border: 3px solid #e2e8f0;
+  font-size: 1.3rem;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--sombra-suave);
+}
+
+.seletor__btn--todas {
+  width: auto;
+  padding: 0 18px;
+  font-size: 1.1rem;
+}
+
+.seletor__btn--ativo {
+  background: #ec4899;
+  color: #fff;
+  border-color: #ec4899;
+}
+
+/* Grade de contas */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* No modo "todas" ficam células menores em várias colunas */
+.grade--completa {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.conta {
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--sombra-suave);
+  border: 4px solid transparent;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.grade--completa .conta {
+  padding: 8px;
+  font-size: 1.05rem;
+  border-width: 3px;
+}
+
+.conta--certa {
+  border-color: var(--cor-sucesso);
+  background: #f0fdf4;
+}
+
+.conta--errada {
+  border-color: var(--cor-erro);
+  background: #fef2f2;
+}
+
+.conta__texto {
+  white-space: nowrap;
+}
+
+.conta__input {
+  width: 64px;
+  padding: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  border: 3px solid #cbd5e1;
+  border-radius: 12px;
+  font-family: inherit;
+}
+
+.grade--completa .conta__input {
+  width: 48px;
+  padding: 6px;
+  font-size: 1rem;
+}
+
+.conta__input:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+}
+
+/* Remove as setinhas do input number */
+.conta__input::-webkit-outer-spin-button,
+.conta__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.conta__input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.conta__correcao {
+  font-weight: 800;
+  color: var(--cor-erro);
+}
+
+.conta__correcao--ok {
+  color: var(--cor-sucesso);
+}
+
+/* Ações */
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn-corrigir {
+  background: #ec4899;
+  color: #fff;
+  font-size: 1.3rem;
+  padding: 16px 32px;
+  box-shadow: var(--sombra-suave);
+}
+
+.btn-limpar {
+  background: #64748b;
+  color: #fff;
+  font-size: 1.3rem;
+  padding: 16px 32px;
+}
+
+/* Placar */
+.placar {
+  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+  border-radius: var(--raio);
+  padding: 28px 20px;
+  box-shadow: var(--sombra-suave);
+  margin-top: 20px;
+}
+
+.placar__nota {
+  font-size: 1.9rem;
+}
+
+.placar__mensagem {
+  font-size: 1.25rem;
+  color: #475569;
+  margin: 12px 0 22px;
+}
+
+/* ===== Responsivo (celular) ===== */
+@media (max-width: 600px) {
+  .tabuada__titulo {
+    font-size: 1.5rem;
+  }
+
+  .tabuada__subtitulo {
+    font-size: 1rem;
+  }
+
+  /* botões de seleção menores para caber mais por linha */
+  .seletor {
+    gap: 8px;
+  }
+
+  .seletor__btn {
+    width: 46px;
+    height: 46px;
+    font-size: 1.1rem;
+  }
+
+  .seletor__btn--todas {
+    width: 100%;
+    height: 48px;
+  }
+
+  /* tabuada única: 2 contas por linha */
+  .grade {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .conta {
+    padding: 10px;
+    font-size: 1.1rem;
+    flex-wrap: wrap;
+  }
+
+  /* tabela completa (1 a 10): colunas estreitas que cabem no celular */
+  .grade--completa {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grade--completa .conta {
+    font-size: 0.95rem;
+  }
+
+  .conta__input {
+    width: 54px;
+  }
+
+  .grade--completa .conta__input {
+    width: 44px;
+  }
+
+  .btn-corrigir,
+  .btn-limpar {
+    font-size: 1.1rem;
+    padding: 14px 18px;
+    flex: 1 1 auto;
+  }
+
+  .placar__nota {
+    font-size: 1.5rem;
+  }
+
+  .placar__mensagem {
+    font-size: 1.1rem;
+  }
+}

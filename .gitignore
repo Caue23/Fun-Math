@@ -1,0 +1,22 @@
+# Dependências (NÃO subir - reinstaladas com npm install)
+/node_modules
+
+# Saída de build (gerada automaticamente)
+/dist
+/.angular
+/out-tsc
+
+# Logs e temporários
+*.log
+build-log.txt
+npm-debug.log*
+
+# Variáveis de ambiente / segredos
+.env
+.env.*
+
+# Arquivos de sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json

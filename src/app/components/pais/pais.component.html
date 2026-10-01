@@ -1,0 +1,138 @@
+<section class="container pais">
+  <!-- Login da área dos pais -->
+  <div class="trava" *ngIf="!liberado">
+    <div class="trava__cartao">
+      <div class="trava__emoji">🔒</div>
+      <h1 class="trava__titulo">Área dos Pais</h1>
+      <p class="trava__texto">Entre com usuário e senha para ver o relatório.</p>
+
+      <form (ngSubmit)="entrar()" class="trava__login" autocomplete="off">
+        <input
+          class="trava__campo"
+          type="text"
+          name="usuario"
+          [(ngModel)]="usuario"
+          placeholder="Usuário"
+          autocomplete="username"
+        />
+        <input
+          class="trava__campo"
+          type="password"
+          name="senha"
+          [(ngModel)]="senha"
+          placeholder="Senha"
+          autocomplete="current-password"
+        />
+        <button type="submit" class="btn trava__btn">Entrar</button>
+      </form>
+
+      <p class="trava__erro" *ngIf="erroTrava">
+        Usuário ou senha incorretos. 🙂
+      </p>
+      <button class="btn trava__voltar" (click)="sair()">⬅️ Voltar ao app</button>
+    </div>
+  </div>
+
+  <!-- Relatório -->
+  <div class="relatorio" *ngIf="liberado">
+    <div class="relatorio__topo">
+      <h1 class="relatorio__titulo">📊 Relatório de Progresso</h1>
+      <div class="relatorio__botoes">
+        <button class="btn relatorio__atualizar" (click)="recarregar()">
+          🔄 Atualizar
+        </button>
+        <button class="btn relatorio__voltar" (click)="sair()">⬅️ Voltar</button>
+      </div>
+    </div>
+
+    <p class="carregando" *ngIf="carregando">Carregando dados da nuvem... ⏳</p>
+
+    <!-- Seletor de aluno -->
+    <div class="selecao" *ngIf="alunos.length">
+      <label class="selecao__label">Aluno:</label>
+      <select
+        class="selecao__select"
+        [ngModel]="alunoSelecionado?.nome"
+        (ngModelChange)="selecionarAluno($event)"
+      >
+        <option *ngFor="let a of alunos" [value]="a.nome">{{ a.nome }}</option>
+      </select>
+    </div>
+
+    <!-- Sem dados -->
+    <div class="vazio" *ngIf="!carregando && !alunos.length">
+      <p>Nenhum aluno com atividades ainda. 🤷</p>
+    </div>
+
+    <ng-container *ngIf="alunoSelecionado">
+      <!-- Cartões de total -->
+      <div class="totais">
+        <div class="total total--atividades">
+          <span class="total__numero">{{ totalAtividades }}</span>
+          <span class="total__rotulo">Atividades</span>
+        </div>
+        <div class="total total--acertos">
+          <span class="total__numero">{{ totalAcertos }}</span>
+          <span class="total__rotulo">Acertos ✅</span>
+        </div>
+        <div class="total total--erros">
+          <span class="total__numero">{{ totalErros }}</span>
+          <span class="total__rotulo">Erros ❌</span>
+        </div>
+        <div class="total total--percent">
+          <span class="total__numero">{{ percentualGeral }}%</span>
+          <span class="total__rotulo">Aproveitamento</span>
+        </div>
+      </div>
+
+      <!-- Desempenho por tema -->
+      <h2 class="relatorio__sub">Desempenho por tema</h2>
+      <div class="vazio" *ngIf="!resumo.length">
+        <p>Ainda não há atividades registradas para este aluno. 📭</p>
+      </div>
+
+      <div class="tema-card" *ngFor="let r of resumo">
+        <div class="tema-card__cabecalho">
+          <span class="tema-card__nome">{{ r.emoji }} {{ r.rotulo }}</span>
+          <span class="tema-card__percent">{{ r.percentual }}%</span>
+        </div>
+        <div class="barra">
+          <div
+            class="barra__preenchida"
+            [style.width.%]="r.percentual"
+            [class.barra__preenchida--baixo]="r.percentual < 50"
+            [class.barra__preenchida--medio]="r.percentual >= 50 && r.percentual < 80"
+          ></div>
+        </div>
+        <div class="tema-card__detalhe">
+          {{ r.acertos }} acertos · {{ r.erros }} erros · {{ r.atividades }} atividade(s)
+        </div>
+      </div>
+
+      <!-- Histórico recente -->
+      <h2 class="relatorio__sub" *ngIf="historico.length">Últimas atividades</h2>
+      <ul class="historico" *ngIf="historico.length">
+        <li class="historico__item" *ngFor="let h of historico">
+          <span class="historico__tema">
+            {{ emojiTema(h.tema) }} {{ rotuloTema(h.tema) }}
+            <small>({{ h.tipo === 'tabuada' ? 'tabela' : 'quiz' }})</small>
+          </span>
+          <span class="historico__nota">
+            {{ h.acertos }}/{{ h.total }}
+          </span>
+          <span class="historico__data">
+            {{ h.data | date: 'dd/MM HH:mm' }}
+          </span>
+        </li>
+      </ul>
+
+      <button
+        class="btn btn-limpar-hist"
+        *ngIf="historico.length"
+        (click)="limpar()"
+      >
+        🗑️ Apagar histórico deste aluno
+      </button>
+    </ng-container>
+  </div>
+</section>

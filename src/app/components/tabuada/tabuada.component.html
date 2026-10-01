@@ -1,0 +1,70 @@
+<section class="container tabuada">
+  <button class="btn voltar" (click)="voltarHome()">⬅️ Menu</button>
+
+  <h1 class="tabuada__titulo">🔢 Complete a Tabuada!</h1>
+  <p class="tabuada__subtitulo">
+    Escolha uma tabuada e preencha os resultados. Depois clique em corrigir!
+  </p>
+
+  <!-- Seletor de qual tabuada treinar -->
+  <div class="seletor">
+    <button
+      *ngFor="let n of numeros"
+      class="btn seletor__btn"
+      [class.seletor__btn--ativo]="tabelaSelecionada === n"
+      (click)="selecionar(n)"
+    >
+      {{ n }}
+    </button>
+    <button
+      class="btn seletor__btn seletor__btn--todas"
+      [class.seletor__btn--ativo]="tabelaSelecionada === 'todas'"
+      (click)="selecionar('todas')"
+    >
+      Todas (1 a 10) 🌟
+    </button>
+  </div>
+
+  <!-- Lista de contas para preencher -->
+  <div class="grade" [class.grade--completa]="modoCompleto">
+    <div
+      class="conta"
+      *ngFor="let c of celulas"
+      [class.conta--certa]="enviado && acertou(c)"
+      [class.conta--errada]="enviado && !acertou(c)"
+    >
+      <span class="conta__texto">{{ c.a }} × {{ c.b }} =</span>
+      <input
+        class="conta__input"
+        type="number"
+        inputmode="numeric"
+        [(ngModel)]="c.valor"
+        [disabled]="enviado"
+        placeholder="?"
+      />
+      <!-- Mostra a resposta certa quando errou -->
+      <span class="conta__correcao" *ngIf="enviado && !acertou(c)">
+        ❌ {{ c.resposta }}
+      </span>
+      <span class="conta__correcao conta__correcao--ok" *ngIf="enviado && acertou(c)">
+        ✅
+      </span>
+    </div>
+  </div>
+
+  <!-- Ações -->
+  <div class="acoes" *ngIf="!enviado">
+    <button class="btn btn-corrigir" (click)="corrigir()">Corrigir ✔️</button>
+    <button class="btn btn-limpar" (click)="limpar()">Limpar 🧽</button>
+  </div>
+
+  <!-- Placar -->
+  <div class="placar" *ngIf="enviado">
+    <h2 class="placar__nota">Você acertou {{ acertos }} de {{ total }}! 🏅</h2>
+    <p class="placar__mensagem">{{ mensagemFinal }}</p>
+    <div class="acoes">
+      <button class="btn btn-corrigir" (click)="limpar()">Treinar de novo 🔁</button>
+      <button class="btn btn-limpar" (click)="voltarHome()">Voltar ao menu 🏠</button>
+    </div>
+  </div>
+</section>

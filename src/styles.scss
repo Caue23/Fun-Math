@@ -1,0 +1,86 @@
+/* ===== Estilos globais ===== */
+:root {
+  --cor-fundo: #f0f9ff;
+  --cor-texto: #1e293b;
+  --cor-primaria: #6366f1;
+  --cor-sucesso: #16a34a;
+  --cor-erro: #dc2626;
+  --sombra-suave: 0 8px 20px rgba(0, 0, 0, 0.12);
+  --raio: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Baloo 2', 'Comic Sans MS', system-ui, sans-serif;
+  color: var(--cor-texto);
+  background:
+    radial-gradient(circle at 10% 10%, #fde68a55, transparent 40%),
+    radial-gradient(circle at 90% 20%, #a5f3fc55, transparent 40%),
+    radial-gradient(circle at 50% 95%, #fbcfe855, transparent 45%),
+    var(--cor-fundo);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden; /* evita rolagem lateral acidental no celular */
+}
+
+/* Botão base reutilizável */
+.btn {
+  border: none;
+  border-radius: var(--raio);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  filter: brightness(1.05);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+.btn {
+  /* evita quebra feia e garante toque confortável no celular */
+  line-height: 1.2;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+/* ===== Ajustes para celular ===== */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px 12px 48px;
+  }
+
+  /* no toque, o efeito de hover escala o botão e "corta" o texto;
+     desligamos o hover em telas pequenas/touch */
+  .btn:hover {
+    transform: none;
+    filter: none;
+  }
+}
+

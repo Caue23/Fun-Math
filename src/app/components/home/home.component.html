@@ -1,0 +1,27 @@
+<section class="container home">
+  <div class="home__saudacao" *ngIf="nomeAluno">
+    <span>Olá, <strong>{{ nomeAluno }}</strong>! 😄</span>
+    <button class="btn home__trocar" (click)="trocarAluno()">Trocar 🔄</button>
+  </div>
+
+  <h1 class="home__titulo">O que vamos aprender hoje? 🤔</h1>
+  <p class="home__subtitulo">Escolha um assunto para começar a diversão!</p>
+
+  <div class="home__grade">
+    <button
+      *ngFor="let tema of temas"
+      class="btn card-tema"
+      [style.background]="tema.cor"
+      (click)="abrirModulo(tema)"
+      [attr.aria-label]="'Estudar ' + tema.titulo"
+    >
+      <span class="card-tema__emoji">{{ tema.emoji }}</span>
+      <span class="card-tema__titulo">{{ tema.titulo }}</span>
+    </button>
+  </div>
+
+  <!-- Acesso discreto para os pais (a criança não percebe que é um relatório) -->
+  <footer class="home__rodape">
+    <a routerLink="/pais" class="home__pais" aria-label="Área dos pais">🔒</a>
+  </footer>
+</section>
